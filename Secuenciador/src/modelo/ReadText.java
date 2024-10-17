@@ -1,4 +1,3 @@
-
 package modelo;
 
 import java.io.BufferedReader;
@@ -18,16 +17,19 @@ public class ReadText {
         StringBuilder content = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            
             String line;
             while ((line = br.readLine()) != null) {
-                content.append(line).append(System.lineSeparator()); 
+                content.append(line).append(System.lineSeparator());
             }
         } catch (IOException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
         }
 
-        return content.toString().trim(); // Eliminar el último salto de línea
+        // Eliminar el último salto de línea adicional
+        if (content.length() > 0) {
+            content.setLength(content.length() - System.lineSeparator().length());
+        }
+
+        return content.toString();
     }
 }
-
