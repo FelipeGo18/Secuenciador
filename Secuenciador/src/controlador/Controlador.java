@@ -39,11 +39,6 @@ public class Controlador {
         try {
             // Leer el contenido del archivo
             contenidoArchivo = readText.readFile();
-            JOptionPane.showMessageDialog(null, "Contenido del archivo:\n" + contenidoArchivo,
-                    "Contenido del Archivo", JOptionPane.INFORMATION_MESSAGE);
-
-            // Mostrar el contenido en la interfaz
-            ((InterfazApp) pnlSeleccionar.getTopLevelAncestor()).mostrarContenidoArchivo();
 
             // Procesar el contenido y generar la salida
             String resultado = procesarContenido(contenidoArchivo);

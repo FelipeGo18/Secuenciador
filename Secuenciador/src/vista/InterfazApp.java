@@ -44,17 +44,4 @@ public class InterfazApp extends JFrame {
     public static void main(String[] args) {
         InterfazApp main = new InterfazApp();
     }
-
-    /**
-     * Método para imprimir el contenido después de que se seleccione el
-     * archivo.
-     */
-    public void mostrarContenidoArchivo() {
-        String contenido = controlador.getContenidoArchivo();
-        if (contenido != null) {
-            System.out.println(contenido);
-        } else {
-            System.out.println("No se ha leído ningún archivo aún.");
-        }
-    }
 }
