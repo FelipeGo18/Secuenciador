@@ -40,17 +40,9 @@ public class PanelSeleccionar extends JPanel {
                 if (resultado == JFileChooser.APPROVE_OPTION) {
                     // Obtener el archivo seleccionado
                     archivoSeleccionado = fileChooser.getSelectedFile().getAbsolutePath();
-
-                    if (!archivoSeleccionado.toLowerCase().endsWith(".txt")) {
-                        JOptionPane.showMessageDialog(null, "Por favor, selecciona un archivo .txt.", "Error", JOptionPane.ERROR_MESSAGE);
-                        archivoSeleccionado = null; // Limpiar la variable si no es .txt
-                    } else {
-                        // Crear una instancia de ReadText y leer el archivo
-                        ReadText readText = new ReadText(archivoSeleccionado);
-                        String contenido = readText.readFile();
-                        
-                        JOptionPane.showMessageDialog(null, "Contenido del archivo:\n" + contenido, "Contenido del Archivo", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    ReadText readText = new ReadText(archivoSeleccionado);
+                    String contenido = readText.readFile();
+                    JOptionPane.showMessageDialog(null, "Contenido del archivo:\n" + contenido, "Contenido del Archivo", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         };
@@ -60,6 +52,3 @@ public class PanelSeleccionar extends JPanel {
         return archivoSeleccionado;
     }
 }
-
-
-

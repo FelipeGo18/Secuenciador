@@ -23,8 +23,7 @@ public class InterfazApp extends JFrame {
     }
 
     public static void main(String[] args) {
-        new InterfazApp();
-
+        InterfazApp main = new InterfazApp();
     }
 
 }
