@@ -1,0 +1,11 @@
+1 int u, d, c, n;					-
+
+2 print("Digite un numero entero de 3 digitos");	-
+3 read(n);						-
+
+4 u = n % 10;						-
+5 n = n/10;						-
+6 d = n% 10;						-
+7 c = n/10;						-
+
+8 print("En resultado es: " + n);			-

@@ -4,47 +4,87 @@ import javax.swing.JOptionPane;
 import modelo.ReadText;
 import vista.InterfazApp;
 import vista.PanelSeleccionar;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
- * La clase Controlador se encarga de gestionar la lógica de la aplicación
- * relacionada con la selección y lectura de archivos de texto. Actúa como
- * intermediario entre la vista (PanelSeleccionar) y el modelo (ReadText).
+ * Controlador que maneja la interacción entre la vista y el modelo en la
+ * aplicación de secuenciador de archivos. Se encarga de leer el contenido de un
+ * archivo de texto y crear un archivo de salida con los resultados procesados.
  */
 public class Controlador {
 
-    private PanelSeleccionar pnlSeleccionar; // Panel de selección de archivos
-    private String contenidoArchivo; // Almacena el contenido del archivo leído
+    private PanelSeleccionar pnlSeleccionar; // Panel de selección de archivo
+    private String contenidoArchivo; // Contenido del archivo leído
 
     /**
-     * Constructor de la clase Controlador.
+     * Constructor del controlador.
      *
-     * @param pnlSeleccionar El panel de selección donde se encuentra el botón
-     *                       para seleccionar archivos.
+     * @param pnlSeleccionar El panel desde el que se selecciona el archivo.
      */
     public Controlador(PanelSeleccionar pnlSeleccionar) {
-        this.pnlSeleccionar = pnlSeleccionar; // Inicializa el panel de selección
-        this.pnlSeleccionar.setControlador(this); // Establece el controlador en el panel
+        this.pnlSeleccionar = pnlSeleccionar;
+        this.pnlSeleccionar.setControlador(this); // Inyectar el controlador en el panel
     }
 
     /**
-     * Procesa el archivo seleccionado. Lee su contenido utilizando la clase
-     * ReadText y muestra el contenido en un cuadro de diálogo. También
-     * notifica a la interfaz principal sobre el contenido leído.
+     * Procesa el archivo seleccionado, lee su contenido y crea un archivo de
+     * salida con los resultados.
      *
-     * @param archivoSeleccionado La ruta del archivo seleccionado por el
-     *                            usuario.
+     * @param archivoSeleccionado Ruta del archivo a procesar.
      */
     public void procesarArchivo(String archivoSeleccionado) {
-        ReadText readText = new ReadText(archivoSeleccionado); // Crea una instancia de ReadText
+        ReadText readText = new ReadText(archivoSeleccionado); // Crear instancia para leer el archivo
         try {
-            contenidoArchivo = readText.readFile(); // Lee el contenido del archivo
+            // Leer el contenido del archivo
+            contenidoArchivo = readText.readFile();
             JOptionPane.showMessageDialog(null, "Contenido del archivo:\n" + contenidoArchivo,
                     "Contenido del Archivo", JOptionPane.INFORMATION_MESSAGE);
-            // Llama al método para mostrar el contenido en la interfaz principal
+
+            // Mostrar el contenido en la interfaz
             ((InterfazApp) pnlSeleccionar.getTopLevelAncestor()).mostrarContenidoArchivo();
+
+            // Procesar el contenido y generar la salida
+            String resultado = procesarContenido(contenidoArchivo);
+
+            // Crear el archivo de salida con el resultado
+            crearArchivoSalida("resultado.txt", resultado);
+
         } catch (Exception ex) {
-            // Maneja errores al leer el archivo
+            // Manejar errores en la lectura del archivo
             JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Método para procesar el contenido del archivo y retornar el resultado.
+     *
+     * @param contenido Contenido del archivo leído.
+     * @return Resultado del procesamiento del contenido.
+     */
+    private String procesarContenido(String contenido) {
+        // Aquí iría la lógica para procesar el contenido y obtener el resultado
+        // Por simplicidad, se devuelve el contenido original
+        return contenido; // Cambia esto según tu lógica de procesamiento
+    }
+
+    /**
+     * Crea un archivo de salida con el contenido procesado.
+     *
+     * @param nombreArchivo Nombre del archivo de salida.
+     * @param contenido Contenido a escribir en el archivo.
+     */
+    private void crearArchivoSalida(String nombreArchivo, String contenido) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            writer.write(contenido); // Escribir el contenido en el archivo
+            writer.flush(); // Asegurarse de que todos los datos se escriban
+            JOptionPane.showMessageDialog(null, "Archivo creado: " + nombreArchivo,
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            // Manejar errores en la creación del archivo
+            JOptionPane.showMessageDialog(null, "Error al crear el archivo: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -52,10 +92,9 @@ public class Controlador {
     /**
      * Devuelve el contenido del archivo leído.
      *
-     * @return Una cadena que representa el contenido del archivo, o null si
-     *         aún no se ha leído ningún archivo.
+     * @return Contenido del archivo.
      */
     public String getContenidoArchivo() {
-        return contenidoArchivo; // Retorna el contenido almacenado
+        return contenidoArchivo;
     }
 }
