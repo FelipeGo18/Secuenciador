@@ -59,15 +59,16 @@ public class Controlador {
     }
 
     /**
-     * Método para procesar el contenido del archivo y retornar el resultado.
+     * Método para secuenciar el código.
      *
      * @param contenido Contenido del archivo leído.
-     * @return Resultado del procesamiento del contenido.
+     * @return Resultado de la secuenciación.
      */
     private String procesarContenido(String contenido) {
-        // Aquí iría la lógica para procesar el contenido y obtener el resultado
-        // Por simplicidad, se devuelve el contenido original
-        return contenido; // Cambia esto según tu lógica de procesamiento
+        
+        
+        
+        return contenido; 
     }
 
     /**
