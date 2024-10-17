@@ -4,16 +4,31 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * La clase ReadText se encarga de leer archivos de texto y devolver su
+ * contenido.
+ */
 public class ReadText {
 
-    private String filePath;
+    private String filePath; // Ruta del archivo a leer
 
+    /**
+     * Constructor que inicializa la ruta del archivo.
+     *
+     * @param filePath Ruta del archivo a leer.
+     */
     public ReadText(String filePath) {
         this.filePath = filePath;
     }
 
-    // Método para leer el archivo de texto y devolver su contenido
-    public String readFile() {
+    /**
+     * Método para leer el archivo de texto y devolver su contenido como una
+     * cadena.
+     *
+     * @return Contenido del archivo leído.
+     * @throws IOException Si ocurre un error al leer el archivo.
+     */
+    public String readFile() throws IOException {
         StringBuilder content = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -22,14 +37,10 @@ public class ReadText {
                 content.append(line).append(System.lineSeparator());
             }
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
+            // Manejo de errores mejorado
+            throw new IOException("Error al leer el archivo: " + e.getMessage(), e);
         }
 
-        // Eliminar el último salto de línea adicional
-        if (content.length() > 0) {
-            content.setLength(content.length() - System.lineSeparator().length());
-        }
-
-        return content.toString();
+        return content.toString().trim(); // Se elimina el último salto de línea
     }
 }

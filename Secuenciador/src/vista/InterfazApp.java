@@ -4,10 +4,19 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import controlador.Controlador;
 
+/**
+ * La clase InterfazApp representa la interfaz gráfica del secuenciador. Permite
+ * al usuario seleccionar un archivo de texto y muestra su contenido.
+ */
 public class InterfazApp extends JFrame {
 
-    private PanelSeleccionar pnlSeleccionar;
+    private PanelSeleccionar pnlSeleccionar; // Panel para seleccionar el archivo
+    private Controlador controlador; // Controlador para manejar la lógica del secuenciador
 
+    /**
+     * Constructor de la clase InterfazApp. Inicializa la ventana de la
+     * aplicación y configura los componentes.
+     */
     public InterfazApp() {
         setTitle("Secuenciador");
         setSize(380, 250);
@@ -21,12 +30,31 @@ public class InterfazApp extends JFrame {
         add(pnlSeleccionar);
 
         // Crear el controlador y conectar la vista
-        Controlador controlador = new Controlador(pnlSeleccionar);
+        controlador = new Controlador(pnlSeleccionar);
 
         setVisible(true);
     }
 
+    /**
+     * Método principal que inicia la aplicación.
+     *
+     * @param args Argumentos de línea de comandos (no se utilizan en esta
+     * aplicación).
+     */
     public static void main(String[] args) {
         InterfazApp main = new InterfazApp();
+    }
+
+    /**
+     * Método para imprimir el contenido después de que se seleccione el
+     * archivo.
+     */
+    public void mostrarContenidoArchivo() {
+        String contenido = controlador.getContenidoArchivo();
+        if (contenido != null) {
+            System.out.println(contenido);
+        } else {
+            System.out.println("No se ha leído ningún archivo aún.");
+        }
     }
 }
