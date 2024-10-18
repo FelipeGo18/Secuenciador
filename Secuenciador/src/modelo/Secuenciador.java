@@ -18,7 +18,7 @@ public class Secuenciador {
         return lineas;
     }
 
-    public static void secuenciarCodigo(List<String> codigo) {
+    public static List<String> secuenciarCodigo(List<String> codigo) {
         Stack<BloqueInfo> pilaBloques = new Stack<>(); // Pila para almacenar la información de cualquier bloque
         List<String> salida = new ArrayList<>();
         int contadorLinea = 1;
@@ -30,7 +30,7 @@ public class Secuenciador {
                 pilaBloques.push(new BloqueInfo("if", contadorLinea));
                 contadorLinea++;
             } else if (linea.startsWith("else")) {
-                salida.add(String.format("%d\t-\t-", contadorLinea));
+                salida.add(String.format("%d\tjump\t-", contadorLinea));
                 pilaBloques.push(new BloqueInfo("else", contadorLinea));
                 contadorLinea++;
             } else if (linea.startsWith("while")) {
@@ -63,18 +63,24 @@ public class Secuenciador {
                     BloqueInfo bloque = pilaBloques.pop();
 
                     switch (bloque.tipo) {
-                        case "if", "else" -> salida.set(bloque.linea - 1, salida.get(bloque.linea - 1).replace("-", String.valueOf(contadorLinea)));
+                        case "if" -> {
+                            contadorLinea++;
+                            salida.set(bloque.linea - 1, salida.get(bloque.linea - 1).replace("-", String.valueOf(contadorLinea)));
+                            contadorLinea--;
+                        }
+                        case "else" ->
+                            salida.set(bloque.linea - 1, salida.get(bloque.linea - 1).replace("-", String.valueOf(contadorLinea)));
                         case "while" -> {
                             salida.add(String.format("%d\tjump\t%d", contadorLinea, bloque.linea));
                             salida.set(bloque.linea - 1, salida.get(bloque.linea - 1).replace("-", String.valueOf(contadorLinea + 1)));
                             contadorLinea++;
                         }
                         case "for" -> {
-                            // Añadimos el incremento en lugar del `end`
+                            // Añadimos el incremento en lugar del end
                             salida.add(String.format("%d\t%s\t%d", contadorLinea, bloque.incremento, bloque.linea));
                             contadorLinea++;
 
-                            // Actualizamos la condición del `for` para que salte al final si no se cumple
+                            // Actualizamos la condición del for para que salte al final si no se cumple
                             salida.set(bloque.linea - 1, salida.get(bloque.linea - 1).replace("-", String.valueOf(contadorLinea)));
                         }
                     }
@@ -86,10 +92,7 @@ public class Secuenciador {
             }
         }
 
-        // Imprimir el resultado final
-        for (String s : salida) {
-            System.out.println(s);
-        }
+        return salida; // Devuelve la lista con el resultado
     }
 
     // Clase auxiliar para almacenar la información de los bloques

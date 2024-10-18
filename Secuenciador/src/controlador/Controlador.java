@@ -2,11 +2,12 @@ package controlador;
 
 import javax.swing.JOptionPane;
 import modelo.ReadText;
-import vista.InterfazApp;
+import modelo.Secuenciador; // Importar el modelo
 import vista.PanelSeleccionar;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Controlador que maneja la interacción entre la vista y el modelo en la
@@ -39,31 +40,17 @@ public class Controlador {
         try {
             // Leer el contenido del archivo
             contenidoArchivo = readText.readFile();
-
             // Procesar el contenido y generar la salida
-            String resultado = procesarContenido(contenidoArchivo);
+            List<String> resultado = Secuenciador.secuenciarCodigo(Secuenciador.leerArchivo(archivoSeleccionado));
 
             // Crear el archivo de salida con el resultado
-            crearArchivoSalida("resultado.txt", resultado);
+            crearArchivoSalida("resultado1000993.txt", String.join("\n", resultado));
 
         } catch (Exception ex) {
             // Manejar errores en la lectura del archivo
             JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    /**
-     * Método para secuenciar el código.
-     *
-     * @param contenido Contenido del archivo leído.
-     * @return Resultado de la secuenciación.
-     */
-    private String procesarContenido(String contenido) {
-        
-        
-        
-        return contenido; 
     }
 
     /**

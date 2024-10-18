@@ -1,0 +1,7 @@
+1	int n;	-
+2	print("Digite un numero entero de 3 digitos");	-
+3	read(n);	-
+4	n % 2 == 0	7
+5	print("El número: " + n + "es par." );	-
+6	jump	8
+7	print("El número: " + n + "es impar." );	-
